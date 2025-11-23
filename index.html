@@ -75,13 +75,15 @@
 
     .hero {
       min-height: 100vh;
-      padding: 20vh 8vw 10vh; /* Extra top padding to fully clear header */
+      padding: 20vh 8vw 10vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
       gap: 5rem;
       position: relative;
     }
+
+    /* EPIC HOVER EFFECT ON PHOTO */
     .hero-img {
       aspect-ratio: 1;
       border-radius: 32px;
@@ -90,7 +92,16 @@
       border: 1px solid var(--border);
       transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    .hero-img:hover {
+      transform: translateY(-20px) rotate(4deg) scale(1.06);
+      box-shadow: 
+        0 50px 120px rgba(0,0,0,0.8),
+        0 0 80px var(--glow),
+        0 0 120px rgba(187, 134, 252, 0.3);
+      border-color: var(--accent);
+    }
     .hero-img img { width: 100%; height: 100%; object-fit: cover; }
+
     .hero-text h1 {
       font-size: 5.5rem;
       font-weight: 900;
@@ -156,12 +167,9 @@
       -webkit-text-fill-color: transparent;
     }
     .link-card .icon svg { width: 2.8rem; height: 2.8rem; }
-    .link-card span {
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
+    .link-card span { font-size: 1.5rem; font-weight: 600; }
 
-    /* Skills Section */
+    /* SKILLS WITH HOVER GLOW + TILT */
     .skills { padding: 15vh 8vw; background: #090909; }
     .section-title {
       text-align: center;
@@ -180,7 +188,16 @@
     }
     .skill {
       text-align: center;
-      padding: 2rem;
+      padding: 2.5rem 2rem;
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .skill:hover {
+      transform: translateY(-12px) rotate(3deg);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 60px var(--glow);
+      border-color: var(--accent);
     }
     .skill i {
       font-size: 3.5rem;
@@ -190,11 +207,17 @@
       -webkit-text-fill-color: transparent;
     }
     .skill h3 { margin: 1rem 0 1.5rem; font-size: 1.4rem; }
+
     .circle {
       position: relative;
       width: 140px;
       height: 140px;
       margin: 0 auto;
+      transition: all 0.6s;
+    }
+    .skill:hover .circle {
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 30px var(--glow));
     }
     .circle svg {
       width: 140px;
@@ -213,7 +236,7 @@
       stroke-linecap: round;
       stroke-dasharray: 377;
       stroke-dashoffset: 377;
-      transition: stroke-dashoffset 2s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: stroke-dashoffset 2.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .percent {
       position: absolute;
@@ -248,7 +271,7 @@
   </header>
 
   <section class="hero">
-    <div class="hero-img" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-perspective="1200">
+    <div class="hero-img" data-tilt data-tilt-max="12" data-tilt-speed="400" data-tilt-perspective="1000">
       <img src="https://i.imgur.com/9GUA48o.jpeg" alt="bellie">
     </div>
     <div class="hero-text">
@@ -275,15 +298,14 @@
       <span>Roblox Profile</span>
     </div>
     <div class="link-card" onclick="window.open('https://paypal.me/Terbo7188','_blank')">
-      <div class="icon"><i class="fab fa-paypal" style="font-size: 2.6rem;"></i></div>
+      <div class="icon"><i class="fab fa-paypal"></i></div>
       <span>PayPal</span>
     </div>
     <div class="link-card" id="litecoin-card">
       <div class="icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="12" fill="none" stroke="currentColor" stroke-width="0"/>
-          <text x="12" y="17" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="currentColor" transform="rotate(-15 12 12)">L</text>
-          <line x1="12" y1="12" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="3"/>
+          <text x="16" y="21" font-family="Arial Black, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="currentColor">L</text>
         </svg>
       </div>
       <span>Litecoin (click to copy)</span>
@@ -293,7 +315,7 @@
   <section class="skills" id="skills">
     <h2 class="section-title">My Skills</h2>
     <div class="skills-grid">
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fas fa-users"></i>
         <h3>Community Management</h3>
         <div class="circle" data-percent="95">
@@ -302,7 +324,7 @@
           <div class="percent">95%</div>
         </div>
       </div>
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fas fa-project-diagram"></i>
         <h3>Project Organization</h3>
         <div class="circle" data-percent="92">
@@ -311,7 +333,7 @@
           <div class="percent">92%</div>
         </div>
       </div>
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fas fa-lightbulb"></i>
         <h3>Creative Management</h3>
         <div class="circle" data-percent="88">
@@ -320,7 +342,7 @@
           <div class="percent">88%</div>
         </div>
       </div>
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fas fa-bullhorn"></i>
         <h3>Public Relations</h3>
         <div class="circle" data-percent="90">
@@ -329,7 +351,7 @@
           <div class="percent">90%</div>
         </div>
       </div>
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fab fa-discord"></i>
         <h3>Discord Bot Dev</h3>
         <div class="circle" data-percent="85">
@@ -338,7 +360,7 @@
           <div class="percent">85%</div>
         </div>
       </div>
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fas fa-code"></i>
         <h3>Web Development</h3>
         <div class="circle" data-percent="80">
@@ -347,7 +369,7 @@
           <div class="percent">80%</div>
         </div>
       </div>
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fas fa-search-dollar"></i>
         <h3>Sourcing Products</h3>
         <div class="circle" data-percent="87">
@@ -356,7 +378,7 @@
           <div class="percent">87%</div>
         </div>
       </div>
-      <div class="skill">
+      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
         <i class="fas fa-chart-bar"></i>
         <h3>Statistic Reviewing</h3>
         <div class="circle" data-percent="93">
@@ -396,17 +418,20 @@
     document.getElementById('litecoin-card').addEventListener('click', () => {
       navigator.clipboard.writeText(litecoinAddress);
       const card = document.getElementById('litecoin-card');
-      card.innerHTML = `<div class="icon"><i class="fas fa-check" style="color:#4ade80; font-size: 2.6rem;"></i></div><span style="color:#4ade80">Copied!</span>`;
+      card.innerHTML = `<div class="icon"><i class="fas fa-check" style="color:#4ade80; font-size: 2.8rem;"></i></div><span style="color:#4ade80">Copied!</span>`;
       setTimeout(() => location.reload(), 2000);
     });
 
+    // Animate progress circles on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const circle = entry.target.querySelector('.circle-progress');
           const percent = entry.target.getAttribute('data-percent');
           const offset = 377 - (377 * percent / 100);
-          circle.style.strokeDashoffset = offset;
+          setTimeout(() => {
+            circle.style.strokeDashoffset = offset;
+          }, 300);
         }
       });
     }, { threshold: 0.7 });
