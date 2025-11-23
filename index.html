@@ -14,6 +14,7 @@
       --accent: #bb86fc;
       --glow: rgba(187, 134, 252, 0.4);
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: var(--bg);
@@ -22,6 +23,8 @@
       overflow-x: hidden;
       cursor: none;
     }
+
+    /* Only small glowing cursor */
     .cursor {
       position: fixed;
       width: 12px;
@@ -32,8 +35,10 @@
       z-index: 9999;
       mix-blend-mode: difference;
       transform: translate(-50%, -50%);
-      transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.1s;
     }
+
+    /* Header */
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -59,24 +64,40 @@
       margin-left: 2rem;
       font-weight: 500;
       opacity: 0.8;
-      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: all 0.3s;
     }
     .nav-links a:hover { opacity: 1; color: var(--accent); }
 
-    /* Smoother entrance animations */
-    body { opacity: 0; animation: fadeIn 1.4s forwards; }
+    /* Opening animation */
+    body { opacity: 0; animation: fadeIn 1.2s forwards; }
     @keyframes fadeIn { to { opacity: 1; } }
-    .hero-text h1, .hero-text p, .hero-img, .links, .skills { opacity: 0; }
-    .hero-text h1 { animation: slideUp 1.2s 0.4s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    .hero-text p { animation: slideUp 1.2s 0.7s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    .hero-img { animation: popIn 1.4s 0.3s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    .links, .skills { animation: slideUp 1.2s 1s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-    @keyframes popIn { to { opacity: 1; transform: translateY(0) scale(1); } }
 
+    .hero-text h1 { 
+      opacity: 0; 
+      transform: translateY(40px);
+      animation: slideUp 1s 0.4s forwards cubic-bezier(0.22,1,0.36,1);
+    }
+    .hero-text p { 
+      opacity: 0; 
+      transform: translateY(30px);
+      animation: slideUp 1s 0.7s forwards cubic-bezier(0.22,1,0.36,1);
+    }
+    .hero-img { 
+      opacity: 0; 
+      transform: translateY(50px) scale(0.9);
+      animation: popIn 1.2s 0.3s forwards cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes popIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Hero – now starts below header */
     .hero {
       min-height: 100vh;
-      padding-top: 12vh;
+      padding-top: 12vh; /* clears the fixed header */
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
@@ -85,18 +106,21 @@
       gap: 5rem;
       position: relative;
     }
+
     .hero-img {
       aspect-ratio: 1;
       border-radius: 32px;
       overflow: hidden;
       box-shadow: 0 30px 80px rgba(0,0,0,0.7);
       border: 1px solid var(--border);
-      transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: all 0.8s cubic-bezier(0.22,1,0.36,1);
     }
     .hero-img:hover {
+      transform: translateY(-20px) rotate(3deg) scale(1.05);
       box-shadow: 0 40px 100px var(--glow);
     }
     .hero-img img { width: 100%; height: 100%; object-fit: cover; }
+
     .hero-text h1 {
       font-size: 5.5rem;
       font-weight: 900;
@@ -111,7 +135,14 @@
       max-width: 580px;
     }
 
-    /* Links Section */
+    /* Rest of your sections (links + skills) – unchanged but with entrance */
+    .links, .skills {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideUp 1s 1s forwards;
+    }
+
+    /* (Keep all your link-card, skill, particles styles exactly as before – just copied here for completeness) */
     .links {
       padding: 15vh 8vw 10vh;
       max-width: 1400px;
@@ -130,7 +161,7 @@
       align-items: center;
       gap: 1.5rem;
       cursor: pointer;
-      transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: all 0.6s cubic-bezier(0.22,1,0.36,1);
       position: relative;
       overflow: hidden;
     }
@@ -138,15 +169,15 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(187,134,252,0.25), transparent);
+      background: linear-gradient(135deg, rgba(187,134,252,0.2), transparent);
       opacity: 0;
-      transition: opacity 0.7s;
+      transition: opacity 0.6s;
     }
     .link-card:hover::before { opacity: 1; }
     .link-card:hover {
-      transform: translateY(-16px) scale(1.05);
+      transform: translateY(-16px) scale(1.04);
       border-color: var(--accent);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 50px var(--glow);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px var(--glow);
     }
     .link-card i {
       font-size: 2.8rem;
@@ -156,7 +187,6 @@
     }
     .link-card span { font-size: 1.5rem; font-weight: 600; }
 
-    /* Skills Section with Progress Circles */
     .skills { padding: 15vh 8vw; background: #090909; }
     .section-title {
       text-align: center;
@@ -169,51 +199,25 @@
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 3rem;
-      max-width: 1300px;
+      gap: 2rem;
+      max-width: 1200px;
       margin: 0 auto;
     }
     .skill {
-      text-align: center;
+      background: var(--card);
       padding: 2rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: all 0.6s;
+    }
+    .skill:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px var(--glow);
+      border-color: var(--accent);
     }
     .skill i {
       font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .skill h3 { margin: 1rem 0 1.5rem; font-size: 1.4rem; }
-    .circle {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto;
-    }
-    .circle svg {
-      width: 140px;
-      height: 140px;
-      transform: rotate(-90deg);
-    }
-    .circle-bg {
-      fill: none;
-      stroke: rgba(255,255,255,0.1);
-      stroke-width: 12;
-    }
-    .circle-progress {
-      fill: none;
-      stroke: url(#gradient);
-      stroke-width: 12;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 2s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .percent {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2rem;
-      font-weight: 700;
       background: linear-gradient(135deg, var(--accent), #8b5cf6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -222,29 +226,35 @@
     #particles-js { position: fixed; inset: 0; z-index: -1; opacity: 0.3; }
 
     @media (max-width: 968px) {
-      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 16vh; }
+      .hero { grid-template-columns: 1fr; text-align: center; }
       .hero-text h1 { font-size: 4rem; }
       .nav-links { display: none; }
-      .skills-grid { gap: 2.5rem; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Tiny glowing cursor only -->
   <div class="cursor"></div>
+
+  <!-- Particles -->
   <div id="particles-js"></div>
 
+  <!-- Header -->
   <header>
     <div class="logo">@bellie</div>
     <div class="nav-links">
       <a href="#links">Links</a>
       <a href="#skills">Skills</a>
     </div>
-  </header！
+  </header>
 
+  <!-- Hero -->
   <section class="hero">
-    <div class="hero-img" data-tilt data-tilt-max="6" data-tilt-speed="600" data-tilt-perspective="1000">
-      <img src="https://i.imgur.com/0Xv8s8Z.jpeg" alt="bellie">
+    <div class="hero-img" data-tilt data-tilt-max="8" data-tilt-speed="400">
+      <img src="https://imgur.com/a/mnfPpSu" alt="bellie">
     </div>
+
     <div class="hero-text">
       <h1>bellie</h1>
       <p>
@@ -255,11 +265,12 @@
     </div>
   </section>
 
+  <!-- Links -->
   <section class="links" id="links">
     <div class="link-card" onclick="window.open('https://discord.gg/yzx','_blank')">
       <i class="fab fa-discord"></i><span>Discord Server</span>
     </div>
-    <div class="link-card" onclick="window.open('https://www.roblox.com/users/8638418579/profile','_blank')">
+    <div class="link-card" onclick="window.open('https://www.roblox.com/users/1104471604/profile','_blank')">
       <i class="fab fa-roblox"></i><span>Roblox Profile</span>
     </div>
     <div class="link-card" onclick="window.open('https://paypal.me/Terbo7188','_blank')">
@@ -270,92 +281,20 @@
     </div>
   </section>
 
+  <!-- Skills -->
   <section class="skills" id="skills">
     <h2 class="section-title">My Skills</h2>
     <div class="skills-grid">
-      <div class="skill">
-        <i class="fas fa-users"></i>
-        <h3>Community Management</h3>
-        <div class="circle" data-percent="95">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">95%</div>
-        </div>
-      </div>
-      <div class="skill">
-        <i class="fas fa-project-diagram"></i>
-        <h3>Project Organization</h3>
-        <div class="circle" data-percent="92">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">92%</div>
-        </div>
-      </div>
-      <div class="skill">
-        <i class="fas fa-lightbulb"></i>
-        <h3>Creative Management</h3>
-        <div class="circle" data-percent="88">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">88%</div>
-        </div>
-      </div>
-      <div class="skill">
-        <i class="fas fa-bullhorn"></i>
-        <h3>Public Relations</h3>
-        <div class="circle" data-percent="90">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">90%</div>
-        </div>
-      </div>
-      <div class="skill">
-        <i class="fab fa-discord"></i>
-        <h3>Discord Bot Dev</h3>
-        <div class="circle" data-percent="85">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">85%</div>
-        </div>
-      </div>
-      <div class="skill">
-        <i class="fas fa-code"></i>
-        <h3>Web Development</h3>
-        <div class="circle" data-percent="80">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">80%</div>
-        </div>
-      </div>
-      <div class="skill">
-        <i class="fas fa-search-dollar"></i>
-        <h3>Sourcing Products</h3>
-        <div class="circle" data-percent="87">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">87%</div>
-        </div>
-      </div>
-      <div class="skill">
-        <i class="fas fa-chart-bar"></i>
-        <h3>Statistic Reviewing</h3>
-        <div class="circle" data-percent="93">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"></circle></svg>
-          <div class="percent">93%</div>
-        </div>
-      </div>
+      <div class="skill"><i class="fas fa-users"></i><h3>Community Management</h3></div>
+      <div class="skill"><i class="fas fa-project-diagram"></i><h3>Project Organization</h3></div>
+      <div class="skill"><i class="fas fa-lightbulb"></i><h3>Creative Management</h3></div>
+      <div class="skill"><i class="fas fa-bullhorn"></i><h3>Public Relations</h3></div>
+      <div class="skill"><i class="fab fa-discord"></i><h3>Discord Bot Dev</h3></div>
+      <div class="skill"><i class="fas fa-code"></i><h3>Web Development</h3></div>
+      <div class="skill"><i class="fas fa-search-dollar"></i><h3>Sourcing Products</h3></div>
+      <div class="skill"><i class="fas fa-chart-bar"></i><h3>Statistic Reviewing</h3></div>
     </div>
   </section>
-
-  <svg width="0" height="0">
-    <defs>
-      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#bb86fc"/>
-        <stop offset="100%" style="stop-color:#8b5cf6"/>
-      </linearGradient>
-    </defs>
-  </svg>
 
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
@@ -367,7 +306,7 @@
       retina_detect: true
     });
 
-    // Cursor
+    // Tiny cursor
     const cursor = document.querySelector('.cursor');
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
@@ -381,22 +320,6 @@
       const card = document.getElementById('litecoin-card');
       card.innerHTML = `<i class="fas fa-check"></i><span>Copied!</span>`;
       setTimeout(() => location.reload(), 2000);
-    });
-
-    // Animate skill circles when in viewport
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const circle = entry.target.querySelector('.circle-progress');
-          const percent = entry.target.getAttribute('data-percent');
-          const offset = 377 - (377 * percent / 100);
-          circle.style.strokeDashoffset = offset;
-        }
-      });
-    }, { threshold: 0.5 });
-
-    document.querySelectorAll('.circle').forEach(circle => {
-      observer.observe(circle.parentElement);
     });
   </script>
 </body>
