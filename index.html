@@ -75,7 +75,7 @@
 
     .hero {
       min-height: 100vh;
-      paddingutral: 15vh 8vw 10vh; /* extra top padding so header never overlaps */
+      padding: 20vh 8vw 10vh; /* Extra top padding to fully clear header */
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
@@ -145,13 +145,17 @@
       width: 48px;
       height: 48px;
       flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+    .link-card .icon i, .link-card .icon svg {
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .link-card .icon svg { width: 2.8rem; height: 2.8rem; }
     .link-card span {
       font-size: 1.5rem;
       font-weight: 600;
@@ -225,7 +229,7 @@
     #particles-js { position: fixed; inset: 0; z-index: -1; opacity: 0.3; }
 
     @media (max-width: 968px) {
-      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 20vh; }
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 24vh; }
       .hero-text h1 { font-size: 4rem; }
       .nav-links { display: none; }
     }
@@ -259,7 +263,7 @@
 
   <section class="links" id="links">
     <div class="link-card" onclick="window.open('https://discord.gg/yzx','_blank')">
-      <div class="icon"><i class="fab fa-discord" style="font-size: 2.6rem;"></i></div>
+      <div class="icon"><i class="fab fa-discord"></i></div>
       <span>Discord Server</span>
     </div>
     <div class="link-card" onclick="window.open('https://www.roblox.com/users/8638418579/profile','_blank')">
@@ -271,13 +275,15 @@
       <span>Roblox Profile</span>
     </div>
     <div class="link-card" onclick="window.open('https://paypal.me/Terbo7188','_blank')">
-      <div class="icon"><i class="fab fa-paypal"></i></div>
+      <div class="icon"><i class="fab fa-paypal" style="font-size: 2.6rem;"></i></div>
       <span>PayPal</span>
     </div>
     <div class="link-card" id="litecoin-card">
       <div class="icon">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <path fill="currentColor" d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-1.75-5.5l1.5-6.25 3.5-1.375-1.5-6.25-3.5 1.375 1.5 6.25-3.5 1.375 1.5 6.25 3.5-1.375z"/>
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="12" fill="none" stroke="currentColor" stroke-width="0"/>
+          <text x="12" y="17" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="currentColor" transform="rotate(-15 12 12)">L</text>
+          <line x1="12" y1="12" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </div>
       <span>Litecoin (click to copy)</span>
@@ -390,7 +396,7 @@
     document.getElementById('litecoin-card').addEventListener('click', () => {
       navigator.clipboard.writeText(litecoinAddress);
       const card = document.getElementById('litecoin-card');
-      card.innerHTML = `<div class="icon"><i class="fas fa-check" style="color:#4ade80"></i></div><span style="color:#4ade80">Copied!</span>`;
+      card.innerHTML = `<div class="icon"><i class="fas fa-check" style="color:#4ade80; font-size: 2.6rem;"></i></div><span style="color:#4ade80">Copied!</span>`;
       setTimeout(() => location.reload(), 2000);
     });
 
