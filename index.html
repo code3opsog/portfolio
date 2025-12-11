@@ -1,442 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>bellie</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <style>
-    :root {
-      --bg: #0d0d0d;
-      --card: rgba(25, 25, 25, 0.65);
-      --border: rgba(255, 255, 255, 0.08);
-      --text: #e0e0e0;
-      --accent: #bb86fc;
-      --glow: rgba(187, 134, 252, 0.4);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI Variable', sans-serif;
-      overflow-x: hidden;
-      cursor: none;
-    }
-    .cursor {
-      position: fixed;
-      width: 12px;
-      height: 12px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: difference;
-      transform: translate(-50%, -50%);
-      transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      padding: 1.8rem 8vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      backdrop-filter: blur(20px);
-      background: rgba(13,13,13,0.7);
-      border-bottom: 1px solid var(--border);
-    }
-    .logo {
-      font-size: 2rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, #fff, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav-links a {
-      color: var(--text);
-      text-decoration: none;
-      margin-left: 2rem;
-      font-weight: 500;
-      opacity: 0.8;
-      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .nav-links a:hover { opacity: 1; color: var(--accent); }
-
-    body { opacity: 0; animation: fadeIn 1.4s forwards; }
-    @keyframes fadeIn { to { opacity: 1; } }
-    .hero-text h1, .hero-text p, .hero-img, .links, .skills { opacity: 0; }
-    .hero-text h1 { animation: slideUp 1.2s 0.4s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    .hero-text p { animation: slideUp 1.2s 0.7s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    .hero-img { animation: popIn 1.4s 0.3s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    .links, .skills { animation: slideUp 1.2s 1s forwards cubic-bezier(0.22, 1, 0.36, 1); }
-    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-    @keyframes popIn { to { opacity: 1; transform: translateY(0) scale(1); } }
-
-    .hero {
-      min-height: 100vh;
-      padding: 20vh 8vw 10vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 5rem;
-      position: relative;
-    }
-
-    /* EPIC HOVER EFFECT ON PHOTO */
-    .hero-img {
-      aspect-ratio: 1;
-      border-radius: 32px;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-      border: 1px solid var(--border);
-      transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .hero-img:hover {
-      transform: translateY(-20px) rotate(4deg) scale(1.06);
-      box-shadow: 
-        0 50px 120px rgba(0,0,0,0.8),
-        0 0 80px var(--glow),
-        0 0 120px rgba(187, 134, 252, 0.3);
-      border-color: var(--accent);
-    }
-    .hero-img img { width: 100%; height: 100%; object-fit: cover; }
-
-    .hero-text h1 {
-      font-size: 5.5rem;
-      font-weight: 900;
-      background: linear-gradient(90deg, #fff, var(--accent), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-text p {
-      font-size: 1.4rem;
-      line-height: 1.9;
-      opacity: 0.9;
-      max-width: 580px;
-    }
-
-    .links {
-      padding: 15vh 8vw 10vh;
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 2rem;
-    }
-    .link-card {
-      background: var(--card);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2rem 2.2rem;
-      display: flex;
-      align-items: center;
-      gap: 1.8rem;
-      cursor: pointer;
-      transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    .link-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(187,134,252,0.25), transparent);
-      opacity: 0;
-      transition: opacity 0.7s;
-    }
-    .link-card:hover::before { opacity: 1; }
-    .link-card:hover {
-      transform: translateY(-16px) scale(1.05);
-      border-color: var(--accent);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 50px var(--glow);
-    }
-    .link-card .icon {
-      width: 48px;
-      height: 48px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .link-card .icon i, .link-card .icon svg {
-      font-size: 2.8rem;
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .link-card .icon svg { width: 2.8rem; height: 2.8rem; }
-    .link-card span { font-size: 1.5rem; font-weight: 600; }
-
-    /* SKILLS WITH HOVER GLOW + TILT */
-    .skills { padding: 15vh 8vw; background: #090909; }
-    .section-title {
-      text-align: center;
-      font-size: 4rem;
-      margin-bottom: 6rem;
-      background: linear-gradient(90deg, #fff, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 3rem;
-      max-width: 1300px;
-      margin: 0 auto;
-    }
-    .skill {
-      text-align: center;
-      padding: 2.5rem 2rem;
-      border-radius: 24px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .skill:hover {
-      transform: translateY(-12px) rotate(3deg);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 60px var(--glow);
-      border-color: var(--accent);
-    }
-    .skill i {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .skill h3 { margin: 1rem 0 1.5rem; font-size: 1.4rem; }
-
-    .circle {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto;
-      transition: all 0.6s;
-    }
-    .skill:hover .circle {
-      transform: scale(1.15);
-      filter: drop-shadow(0 0 30px var(--glow));
-    }
-    .circle svg {
-      width: 140px;
-      height: 140px;
-      transform: rotate(-90deg);
-    }
-    .circle-bg {
-      fill: none;
-      stroke: rgba(255,255,255,0.1);
-      stroke-width: 12;
-    }
-    .circle-progress {
-      fill: none;
-      stroke: url(#gradient);
-      stroke-width: 12;
-      stroke-linecap: round;
-      stroke-dasharray: 377;
-      stroke-dashoffset: 377;
-      transition: stroke-dashoffset 2.2s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .percent {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    #particles-js { position: fixed; inset: 0; z-index: -1; opacity: 0.3; }
-
-    @media (max-width: 968px) {
-      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 24vh; }
-      .hero-text h1 { font-size: 4rem; }
-      .nav-links { display: none; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyMarket - User Item Marketplace</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="cursor"></div>
-  <div id="particles-js"></div>
-
-  <header>
-    <div class="logo">@bellie</div>
-    <div class="nav-links">
-      <a href="#links">Links</a>
-      <a href="#skills">Skills</a>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="hero-img" data-tilt data-tilt-max="12" data-tilt-speed="400" data-tilt-perspective="1000">
-      <img src="https://i.imgur.com/9GUA48o.jpeg" alt="bellie">
-    </div>
-    <div class="hero-text">
-      <h1>bellie</h1>
-      <p>
-        haiii, i'm bellie! I possess many skills in the community management and project organization field.<br><br>
-        I've worked with many large games, servers, and well known creators to make high quality products and service.<br><br>
-        If you'd like to contact me, my links are below!
-      </p>
-    </div>
-  </section>
-
-  <section class="links" id="links">
-    <div class="link-card" onclick="window.open('https://discord.gg/yzx','_blank')">
-      <div class="icon"><i class="fab fa-discord"></i></div>
-      <span>Discord Server</span>
-    </div>
-    <div class="link-card" onclick="window.open('https://www.roblox.com/users/8638418579/profile','_blank')">
-      <div class="icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path fill="currentColor" d="M19.11 3.2L12.8 6.85l-7.49-3.5 6.31-3.5 7.49 3.35zM4.62 7.85l7.49 3.5 7.49-3.5-6.31-3.5-8.67 3.5zM4.62 11.35l7.49 3.5 7.49-3.5-6.31-3.5-8.67 3.5zM12.11 19.85l7.49-3.5-6.31-3.5-8.67 3.5 7.49 3.5z"/>
-        </svg>
-      </div>
-      <span>Roblox Profile</span>
-    </div>
-    <div class="link-card" onclick="window.open('https://paypal.me/Terbo7188','_blank')">
-      <div class="icon"><i class="fab fa-paypal"></i></div>
-      <span>PayPal</span>
-    </div>
-    <div class="link-card" id="litecoin-card">
-      <div class="icon">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="3"/>
-          <text x="16" y="21" font-family="Arial Black, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="currentColor">L</text>
-        </svg>
-      </div>
-      <span>Litecoin (click to copy)</span>
-    </div>
-  </section>
-
-  <section class="skills" id="skills">
-    <h2 class="section-title">My Skills</h2>
-    <div class="skills-grid">
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fas fa-users"></i>
-        <h3>Community Management</h3>
-        <div class="circle" data-percent="95">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">95%</div>
+    <header>
+        <div class="container">
+            <h1 class="logo">MyMarket</h1>
+            <nav id="nav">
+                <a href="#" id="homeLink">Home</a>
+                <a href="#" id="dashboardLink" style="display: none;">Dashboard</a>
+                <a href="#" id="logoutLink" style="display: none;">Logout</a>
+            </nav>
+            <div id="authSection">
+                <button id="googleLogin">Login with Google</button>
+                <button id="discordLogin">Login with Discord</button>
+            </div>
         </div>
-      </div>
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fas fa-project-diagram"></i>
-        <h3>Project Organization</h3>
-        <div class="circle" data-percent="92">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">92%</div>
-        </div>
-      </div>
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fas fa-lightbulb"></i>
-        <h3>Creative Management</h3>
-        <div class="circle" data-percent="88">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">88%</div>
-        </div>
-      </div>
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fas fa-bullhorn"></i>
-        <h3>Public Relations</h3>
-        <div class="circle" data-percent="90">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">90%</div>
-        </div>
-      </div>
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fab fa-discord"></i>
-        <h3>Discord Bot Dev</h3>
-        <div class="circle" data-percent="85">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">85%</div>
-        </div>
-      </div>
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fas fa-code"></i>
-        <h3>Web Development</h3>
-        <div class="circle" data-percent="80">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">80%</div>
-        </div>
-      </div>
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fas fa-search-dollar"></i>
-        <h3>Sourcing Products</h3>
-        <div class="circle" data-percent="87">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">87%</div>
-        </div>
-      </div>
-      <div class="skill" data-tilt data-tilt-max="8" data-tilt-speed="400">
-        <i class="fas fa-chart-bar"></i>
-        <h3>Statistic Reviewing</h3>
-        <div class="circle" data-percent="93">
-          <svg><circle class="circle-bg" cx="70" cy="70" r="60"></circle>
-               <circle class="circle-progress" cx="70" cy="70" r="60"></circle></svg>
-          <div class="percent">93%</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <svg width="0" height="0">
-    <defs>
-      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#bb86fc"/>
-        <stop offset="100%" stop-color="#8b5cf6"/>
-      </linearGradient>
-    </defs>
-  </svg>
+    <main class="container">
+        <!-- Home Page -->
+        <section id="home" class="page">
+            <div class="hero">
+                <h2>Buy & Sell Items Instantly | Trusted User Marketplace</h2>
+                <div class="stats">
+                    <div class="stat">1K+ Items Listed</div>
+                    <div class="stat">500+ Happy Users</div>
+                    <div class="stat">Secure Trades</div>
+                </div>
+            </div>
+            <div class="marketplace">
+                <h3>Browse Shops</h3>
+                <div id="shopsGrid" class="grid"></div>
+            </div>
+        </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
-  <script>
-    particlesJS("particles-js", {
-      particles: { number: { value: 80 }, color: { value: "#bb86fc" }, shape: { type: "circle" }, opacity: { value: 0.5, random: true }, size: { value: 3 }, line_linked: { enable: true, distance: 150, color: "#bb86fc", opacity: 0.2, width: 1 }, move: { enable: true, speed: 2 } },
-      interactivity: { events: { onhover: { enable: true, mode: "repulse" } } },
-      retina_detect: true
-    });
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="page" style="display: none;">
+            <div class="sidebar">
+                <h3>My Shop</h3>
+                <form id="addItemForm">
+                    <input type="text" id="itemName" placeholder="Item Name" required>
+                    <input type="number" id="itemPrice" placeholder="Price (R$)" required>
+                    <input type="url" id="itemImage" placeholder="Image URL" required>
+                    <button type="submit">Add Item</button>
+                </form>
+                <h4>My Items</h4>
+                <ul id="myItemsList"></ul>
+            </div>
+            <div class="content">
+                <h3>All Shops</h3>
+                <div id="allShopsGrid" class="grid"></div>
+            </div>
+        </section>
+    </main>
 
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 MyMarket. Not affiliated with Roblox.</p>
+        </div>
+    </footer>
 
-    const litecoinAddress = "LLdM8VetsXX3Lx2rAA6G9sdhUw7WDQSFMC";
-    document.getElementById('litecoin-card').addEventListener('click', () => {
-      navigator.clipboard.writeText(litecoinAddress);
-      const card = document.getElementById('litecoin-card');
-      card.innerHTML = `<div class="icon"><i class="fas fa-check" style="color:#4ade80; font-size: 2.8rem;"></i></div><span style="color:#4ade80">Copied!</span>`;
-      setTimeout(() => location.reload(), 2000);
-    });
-
-    // Animate progress circles on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const circle = entry.target.querySelector('.circle-progress');
-          const percent = entry.target.getAttribute('data-percent');
-          const offset = 377 - (377 * percent / 100);
-          setTimeout(() => {
-            circle.style.strokeDashoffset = offset;
-          }, 300);
-        }
-      });
-    }, { threshold: 0.7 });
-
-    document.querySelectorAll('.circle').forEach(el => observer.observe(el.parentElement));
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
